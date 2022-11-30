@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { ContactsCollection } from '../imports/api/ContactsCollection';
+import { ContactCollection } from '../imports/api/ContactCollection';
 
 Meteor.startup(async () => {
 

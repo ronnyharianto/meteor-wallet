@@ -1,10 +1,10 @@
 import React from "react"
-import { ContactsCollection } from "../api/ContactsCollection";
+import { ContactCollection } from "../api/ContactCollection";
 import { useTracker } from 'meteor/react-meteor-data';
 
 export const ContactList = () => {
     const contacts = useTracker(() => {
-        return ContactsCollection.find({}).fetch();
+        return ContactCollection.find({}).fetch();
     });
 
     return (
