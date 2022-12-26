@@ -1,20 +1,37 @@
 import React from "react";
-import { ContactCollection } from "../api/ContactCollection";
+import { Meteor } from "meteor/meteor"
+import { NotificationAlert } from "./Components/NotificationAlert"
 
 export const ContactForm = () => {
   const [name, setName] = React.useState(""); // Formik
   const [email, setEmail] = React.useState("");
   const [imageUrl, setImageUrl] = React.useState("");
+  const [notificationMessage, setNotificationMessage] = React.useState("");
+  const [notificationState, setNotificationState] = React.useState("");
+
+  const showNotification = ({ message, state }) => {
+    setNotificationMessage(message);
+    setNotificationState(state);
+  }
 
   const saveContact = () => {
-    ContactCollection.insert({ name, email, imageUrl });
-    setName("");
-    setEmail("");
-    setImageUrl("");
+    Meteor.call("contacts.insert", { name, email, imageUrl }, (errorResponse) => {
+      if (errorResponse) {
+        showNotification({ message: errorResponse.error, state: 2 });
+      }
+      else {
+        setName("");
+        setEmail("");
+        setImageUrl("");
+        showNotification({ message: "Contact Save", state: 1 });
+      }
+    })
   }
 
   return (
     <form className="mt-6">
+      {notificationState && notificationMessage &&
+        <NotificationAlert message={notificationMessage} state={notificationState} />}
       <div className="grid grid-cols-6 gap-6">
         <div className="col-span-6 sm:col-span-6 lg:col-span-2">
           <label htmlFor="name" className="block text-sm font-medium text-gray-700">
