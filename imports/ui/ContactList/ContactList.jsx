@@ -1,14 +1,15 @@
-import React, { memo } from "react";
-import { ContactCollection } from "../api/ContactCollection";
+import React from "react";
+import { ContactCollection } from "../../api/ContactCollection";
 import { useSubscribe, useFind } from 'meteor/react-meteor-data';
-import { ContactItem } from "./ContactItem.jsx";
+import { ContactItem } from "./Components/ContactItem.jsx";
+import { Loading } from "../Components/Loading";
 
 export const ContactList = () => {
     const isLoading = useSubscribe('contacts');
     const contacts = useFind(() => ContactCollection.find({}, { sort: { createdAt: -1 } }));
 
     if (isLoading()) {
-        return <p>Loading....</p>
+        return <Loading />
     }
 
     return (
@@ -19,7 +20,7 @@ export const ContactList = () => {
                 </h3>
                 <ul role="list" className="mt-4 border-t border-b border-gray-200 divide-y divide-gray-200">
                     {contacts.map((contact) => (
-                        <ContactItem contact={contact}></ContactItem>
+                        <ContactItem key={contact._id} contact={contact}></ContactItem>
                     ))}
                 </ul>
             </div>

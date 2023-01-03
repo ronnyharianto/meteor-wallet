@@ -1,5 +1,5 @@
 import React from "react";
-import { XCircleIcon, CheckCircleIcon } from '@heroicons/react/solid'
+import { XCircleIcon, CheckCircleIcon } from '@heroicons/react/20/solid'
 
 export const NotificationAlert = ({ message, state }) => {
     if (state == 1) {
