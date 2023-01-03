@@ -18,6 +18,10 @@ Meteor.methods({
 
         return ContactCollection.remove(contactId);
     },
+    "contacts.archive"({ contactId }) {
+        check(contactId, String);
+        ContactCollection.update({ _id: contactId }, { $set: { archived: true } });
+    },
     "contacts.read"() {
         useTracker(() => {
             return ContactCollection.find({}, { sort: { createdAt: -1 } }).fetch();
