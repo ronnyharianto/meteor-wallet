@@ -3,35 +3,51 @@ import { Modal } from "./Components/Modal";
 import { SelectContact } from "./Components/SelectContact";
 import { Loading } from "../Components/Loading";
 import { useSubscribe, useFind } from 'meteor/react-meteor-data';
-import { ContactCollection } from "../../api/ContactCollection";
+import { ContactCollection } from "../../api/Contacts/ContactCollection";
+import { Meteor } from "meteor/meteor"
+import { WalletCollection } from "../../api/Wallets/WalletCollection";
 
 export const Wallet = () => {
-    const isLoading = useSubscribe('contacts');
+    const isLoadingContacts = useSubscribe('contacts');
     const contacts = useFind(() => ContactCollection.find({}, { sort: { createdAt: -1 } }));
+
+    const isLoadingWallets = useSubscribe('wallets');
+    const wallet = useFind(() => WalletCollection.find())[0];
 
     const [open, setOpen] = React.useState(false);
     const [isTransferring, setIsTransferring] = React.useState(false);
     const [amount, setAmount] = React.useState(0);
-    const [destinationWallet, setDestinationWallet] = React.useState("");
+    const [destinationWallet, setDestinationWallet] = React.useState({});
     const [errorMessage, setErrorMessage] = React.useState("");
 
-    const wallet = {
-        _id: "123",
-        balance: 500,
-        currency: 'USD'
-    }
-
-    const openModal = () => {
+    const openModal = (isTransferring) => {
+        setIsTransferring(isTransferring);
         setOpen(true);
-        setDestinationWallet("");
+        setErrorMessage("");
+        setDestinationWallet({});
         setAmount(0);
     }
 
     const addTransaction = () => {
-        console.log('New transaction', amount, destinationWallet);
+        Meteor.call("transaction.insert", {
+            isTransferring: isTransferring,
+            sourceWalletId: wallet._id,
+            destinationWalletId: destinationWallet?.walletId || null,
+            amount: Number(amount)
+        }, (errorResponse) => {
+            if (errorResponse) {
+                console.log(errorResponse);
+                errorResponse.details?.forEach((error) => {
+                    setErrorMessage(error.message);
+                });
+            }
+            else {
+                setOpen(false);
+            }
+        });
     }
 
-    if (isLoading()) {
+    if (isLoadingContacts() || isLoadingWallets()) {
         return <Loading />
     }
 
@@ -59,8 +75,7 @@ export const Wallet = () => {
                                 type="button"
                                 className="bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600"
                                 onClick={() => {
-                                    setIsTransferring(false);
-                                    openModal();
+                                    openModal(false);
                                 }}
                             >
                                 Add Money
@@ -69,8 +84,7 @@ export const Wallet = () => {
                                 type="button"
                                 className="bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600"
                                 onClick={() => {
-                                    setIsTransferring(true);
-                                    openModal();
+                                    openModal(true);
                                 }}
                             >
                                 Transfer Money
@@ -100,7 +114,7 @@ export const Wallet = () => {
                         )}
                         <div className="mt-2">
                             <label htmlFor="amount" className="block text-sm font-medium text-gray-700">
-                                Name
+                                Amount
                             </label>
                             <input
                                 type="number"
