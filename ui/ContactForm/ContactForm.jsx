@@ -1,6 +1,6 @@
 import React from "react";
 import { Meteor } from "meteor/meteor"
-import { NotificationAlert } from "./Components/NotificationAlert"
+import { NotificationAlert, NotificationState } from "../Components/NotificationAlert"
 
 export const ContactForm = () => {
   const [name, setName] = React.useState(""); // Formik
@@ -8,7 +8,7 @@ export const ContactForm = () => {
   const [imageUrl, setImageUrl] = React.useState("");
   const [walletId, setWalletId] = React.useState("");
   const [notificationMessage, setNotificationMessage] = React.useState("");
-  const [notificationState, setNotificationState] = React.useState("");
+  const [notificationState, setNotificationState] = React.useState(NotificationState.HIDE);
 
   const showNotification = ({ message, state }) => {
     setNotificationMessage(message);
@@ -18,22 +18,21 @@ export const ContactForm = () => {
   const saveContact = () => {
     Meteor.call("contacts.insert", { name, email, imageUrl, walletId }, (errorResponse) => {
       if (errorResponse) {
-        showNotification({ message: errorResponse.error, state: 2 });
+        showNotification({ message: errorResponse.error, state: NotificationState.ERROR });
       }
       else {
         setName("");
         setEmail("");
         setImageUrl("");
         setWalletId("");
-        showNotification({ message: "Contact Save", state: 1 });
+        showNotification({ message: "Contact Save", state: NotificationState.SUCCESS });
       }
     })
   }
 
   return (
     <form className="mt-6">
-      {notificationState && notificationMessage &&
-        <NotificationAlert message={notificationMessage} state={notificationState} />}
+      <NotificationAlert message={notificationMessage} state={notificationState} />
       <div className="grid grid-cols-6 gap-6">
         <div className="col-span-6 sm:col-span-6 lg:col-span-2">
           <label htmlFor="name" className="block text-sm font-medium text-gray-700">

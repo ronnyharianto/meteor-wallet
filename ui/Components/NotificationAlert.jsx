@@ -1,8 +1,14 @@
 import React from "react";
 import { XCircleIcon, CheckCircleIcon } from '@heroicons/react/20/solid'
 
+export const NotificationState = {
+    HIDE: 0,
+    SUCCESS: 1,
+    ERROR: 2
+}
+
 export const NotificationAlert = ({ message, state }) => {
-    if (state == 1) {
+    if (state == NotificationState.SUCCESS) {
         return (
             <div className="rounded-md bg-green-50 p-4">
                 <div className="flex">
@@ -16,7 +22,7 @@ export const NotificationAlert = ({ message, state }) => {
             </div>
         )
     }
-    else if (state == 2) {
+    else if (state == NotificationState.ERROR) {
         return (
             <div className="rounded-md bg-red-50 p-4">
                 <div className="flex">
