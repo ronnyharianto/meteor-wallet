@@ -7,7 +7,7 @@ import { WalletCollection } from '../api/Wallets/WalletCollection';
 import '../api/Wallets/WalletPublications';
 import '../api/Transactions/TransactionCollection';
 import '../api/Transactions/TransactionMethods';
-
+// import '../infra/Accounts';
 import '../infra/CustomError';
 
 Meteor.startup(async () => {

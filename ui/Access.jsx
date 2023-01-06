@@ -83,7 +83,7 @@ export const Access = () => {
                     </button >
                     <button
                         type="button"
-                        className="bg-white bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-black hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600"
+                        className="bg-indigo-100 bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-black hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600"
                         onClick={() => navigate(RoutePaths.HOME)}
                     >
                         Cancel
@@ -101,6 +101,22 @@ export const Access = () => {
                     >
                         Click Here
                     </a>
+                </div>
+                <div className="py-3">
+                    {!isSignUp && (
+                        <>
+                            <span>Forgot Password?</span>
+                            <a
+                                className="cursor-pointer ml-2"
+                                href="#"
+                                onClick={() => {
+                                    navigate(RoutePaths.FORGOT_PASSWORD);
+                                }}
+                            >
+                                Click Here
+                            </a>
+                        </>
+                    )}
                 </div>
             </form>
         </div>
