@@ -17,24 +17,24 @@ export const WalletCollection = new Mongo.Collection('Wallets');
 // });
 
 const walletSchema = new SimpleSchema({
-    // currencies: {
-    //     type: Array
-    // },
-    // "currencies.$": currencySchema,
-    balance: {
-        type: Number,
-        min: 0,
-        defaultValue: 0
-    },
-    currency: {
-        type: String,
-        allowedValues: ["USD", "EUR"],
-        defaultValue: "USD"
-    },
-    createdAt: {
-        type: Date,
-        defaultValue: new Date(),
-    }
+  // currencies: {
+  //     type: Array
+  // },
+  // "currencies.$": currencySchema,
+  balance: {
+    type: Number,
+    min: 0,
+    defaultValue: 0,
+  },
+  currency: {
+    type: String,
+    allowedValues: ['USD', 'EUR'],
+    defaultValue: 'USD',
+  },
+  createdAt: {
+    type: Date,
+    defaultValue: new Date(),
+  },
 });
 
 WalletCollection.attachSchema(walletSchema);
