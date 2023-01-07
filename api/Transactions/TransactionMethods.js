@@ -13,6 +13,11 @@ Meteor.methods({
     destinationWalletId,
     amount,
   }) {
+    const { userId } = this;
+    if (!userId) {
+      throw new Meteor.Error('Access Denied');
+    }
+
     // check(isTransferring, Boolean);
     // check(sourceWalletId, String);
     // check(destinationWalletId, String);
@@ -31,6 +36,7 @@ Meteor.methods({
       sourceWalletId,
       destinationWalletId: isTransferring ? destinationWalletId : null,
       amount,
+      createdBy: userId,
     });
   },
 });

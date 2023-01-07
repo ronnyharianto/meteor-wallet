@@ -5,9 +5,14 @@ Meteor.publish('allContacts', function publishAllContacts() {
   return ContactCollection.find();
 });
 
-Meteor.publish('contacts', function publishContacts() {
+Meteor.publish('myContact', function publishContacts() {
+  const { userId } = this;
+  if (!userId) {
+    throw new Meteor.Error('Access Denied');
+  }
+
   const contacts = ContactCollection.find(
-    { archived: { $ne: true } },
+    { userId, archived: { $ne: true } },
     {
       fields: {
         createdAt: false,

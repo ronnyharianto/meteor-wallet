@@ -6,12 +6,15 @@ import { useSubscribe, useFind } from 'meteor/react-meteor-data';
 import { ContactCollection } from "../../api/Contacts/ContactCollection";
 import { Meteor } from "meteor/meteor"
 import { WalletCollection } from "../../api/Wallets/WalletCollection";
+import { useLoggedUser } from 'meteor/quave:logged-user-react';
 
 export const Wallet = () => {
-    const isLoadingContacts = useSubscribe('contacts');
+    const { loggedUser } = useLoggedUser();
+
+    const isLoadingContacts = useSubscribe('myContact');
     const contacts = useFind(() => ContactCollection.find({}, { sort: { createdAt: -1 } }));
 
-    const isLoadingWallets = useSubscribe('wallets');
+    const isLoadingWallets = useSubscribe('myWallet');
     const wallet = useFind(() => WalletCollection.find())[0];
 
     const [open, setOpen] = React.useState(false);
@@ -55,7 +58,7 @@ export const Wallet = () => {
                 <form className="flex-auto p-6">
                     <div className="flex flex-wrap">
                         <div className="w-full flex-none text-sm font-medium text-gray-500">
-                            Main Account
+                            {loggedUser.email ?? loggedUser.emails[0]?.address}
                         </div>
                         <div className="w-full flex-none text-sm font-medium text-gray-500 mt-2">
                             Wallet ID:

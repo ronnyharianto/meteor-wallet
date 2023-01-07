@@ -99,6 +99,9 @@ const transcationSchema = new SimpleSchema({
     type: Date,
     defaultValue: new Date(),
   },
+  createdBy: {
+    type: String,
+  },
 });
 
 TransactionCollection.attachSchema(transcationSchema);

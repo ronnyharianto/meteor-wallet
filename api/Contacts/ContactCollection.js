@@ -24,6 +24,9 @@ const contactSchema = new SimpleSchema({
     type: Date,
     defaultValue: new Date(),
   },
+  userId: {
+    type: String,
+  },
 });
 
 ContactCollection.attachSchema(contactSchema);

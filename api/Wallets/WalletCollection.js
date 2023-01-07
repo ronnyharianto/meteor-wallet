@@ -35,6 +35,9 @@ const walletSchema = new SimpleSchema({
     type: Date,
     defaultValue: new Date(),
   },
+  userId: {
+    type: String,
+  },
 });
 
 WalletCollection.attachSchema(walletSchema);

@@ -5,7 +5,7 @@ import { ContactItem } from "./Components/ContactItem.jsx";
 import { Loading } from "../Components/Loading";
 
 export const ContactList = () => {
-    const isLoading = useSubscribe('contacts');
+    const isLoading = useSubscribe('myContact');
     const contacts = useFind(() => ContactCollection.find({}, { sort: { createdAt: -1 } }));
 
     if (isLoading()) {
