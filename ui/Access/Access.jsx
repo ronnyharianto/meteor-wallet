@@ -40,6 +40,13 @@ export const Access = () => {
         }
     }
 
+    const loginWithGoogle = (e) => {
+        e.preventDefault();
+        Meteor.loginWithGoogle({
+            loginStyle: 'redirect'
+        })
+    }
+
     return (
         <div className="flex flex-col items-center">
             <h3 className="px-3 py-2 text-lg text-base font-medium">{isSignUp ? "Sign Up" : "Sign In"}</h3>
@@ -115,6 +122,15 @@ export const Access = () => {
                             >
                                 Click Here
                             </a>
+                        </>
+                    )}
+                </div>
+                <div className="py-3">
+                    {!isSignUp && (
+                        <>
+                            <button onClick={loginWithGoogle}>
+                                Login With Google
+                            </button>
                         </>
                     )}
                 </div>
