@@ -1,10 +1,12 @@
 import { Meteor } from 'meteor/meteor';
-// import { check } from 'meteor/check';
+import { check } from 'meteor/check';
+import { Roles } from 'meteor/alanning:roles';
 import {
   TransactionCollection,
   TRANSFER_TYPE,
   ADD_TYPE,
 } from './TransactionCollection';
+import { WalletRoles } from '../../infra/WalletRoles';
 
 Meteor.methods({
   'transaction.insert'({
@@ -38,5 +40,19 @@ Meteor.methods({
       amount,
       createdBy: userId,
     });
+  },
+  'transaction.remove'(transactionId) {
+    const { userId } = this;
+    if (!userId) {
+      throw new Meteor.Error('Access Denied');
+    }
+
+    if (!Roles.userIsInRole(userId, WalletRoles.ADMIN)) {
+      throw new Meteor.Error('Permission Denied');
+    }
+
+    check(transactionId, String);
+
+    return TransactionCollection.remove(transactionId);
   },
 });

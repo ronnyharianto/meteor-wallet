@@ -7,8 +7,10 @@ import '../api/Contacts/ContactPublications';
 import '../api/Wallets/WalletPublications';
 import '../api/Transactions/TransactionCollection';
 import '../api/Transactions/TransactionMethods';
+import '../api/Roles/RoleMethods';
 import '../infra/Accounts';
 import '../infra/CustomError';
+import '../infra/Roles';
 
 // Meteor.startup(async () => {
 //   if (WalletCollection.find().count() == 0) {

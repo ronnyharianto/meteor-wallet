@@ -41,6 +41,40 @@ TransactionCollection.after.insert(function (userId, transactionDocument) {
   }
 });
 
+TransactionCollection.before.remove(function (userId, transactionDocument) {
+  const sourceWallet = WalletCollection.findOne(
+    transactionDocument.sourceWalletId
+  );
+
+  if (!sourceWallet) {
+    throw Meteor.Error('Source wallet not found.');
+  }
+
+  if (transactionDocument.type === TRANSFER_TYPE) {
+    if (sourceWallet.balance < transactionDocument.amount) {
+      throw new Meteor.Error('Insufficient funds.');
+    }
+  }
+});
+
+TransactionCollection.after.remove(function (userId, transactionDocument) {
+  if (transactionDocument.type === TRANSFER_TYPE) {
+    WalletCollection.update(transactionDocument.sourceWalletId, {
+      $inc: { balance: transactionDocument.amount },
+    });
+
+    WalletCollection.update(transactionDocument.destinationWalletId, {
+      $inc: { balance: -transactionDocument.amount },
+    });
+  }
+
+  if (transactionDocument.type === ADD_TYPE) {
+    WalletCollection.update(transactionDocument.sourceWalletId, {
+      $inc: { balance: -transactionDocument.amount },
+    });
+  }
+});
+
 // class TransactionMongoCollection extends Mongo.Collection {
 //     insert(transactionDocument, callback) {
 //         // if (transactionDocument.type === TRANSFER_TYPE) {
