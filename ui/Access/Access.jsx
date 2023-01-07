@@ -1,8 +1,8 @@
 import React from "react";
 import { Accounts } from 'meteor/accounts-base';
 import { useNavigate } from "react-router";
-import { RoutePaths } from "./RoutePaths";
-import { NotificationAlert, NotificationState } from "./Components/NotificationAlert"
+import { RoutePaths } from "../../infra/RoutePaths";
+import { NotificationAlert, NotificationState } from "../Components/NotificationAlert"
 
 export const Access = () => {
     const [email, setEmail] = React.useState("");

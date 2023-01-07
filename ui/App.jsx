@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { Header } from "./Header";
+import { Header } from "./Components/Header";
 import { Router } from './Router';
 import { AlertProvider, Alert } from 'meteor/quave:alert-react-tailwind';
 

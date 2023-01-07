@@ -2,7 +2,7 @@ import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useLoggedUser } from 'meteor/quave:logged-user-react';
 import { Loading } from "./Loading";
-import { RoutePaths } from "../RoutePaths";
+import { RoutePaths } from "../../infra/RoutePaths";
 
 export const LoggedUserOnly = ({ children }) => {
     const { loggedUser, isLoadingLoggedUser } = useLoggedUser();

@@ -2,10 +2,10 @@ import React from "react";
 import { Route, Routes } from "react-router";
 import { Home } from "./Home";
 import { NotFound } from "./NotFound";
-import { RoutePaths } from "./RoutePaths";
-import { Access } from "./Access";
-import { ForgotPassword } from "./ForgotPassword";
-import { ResetPassword } from "./ResetPassword";
+import { RoutePaths } from "../infra/RoutePaths";
+import { Access } from "./Access/Access";
+import { ForgotPassword } from "./Access/ForgotPassword";
+import { ResetPassword } from "./Access/ResetPassword";
 import { LoggedUserOnly } from "./Components/LoggedUserOnly";
 import { AnonymousOnly } from "./Components/AnonymousOnly";
 

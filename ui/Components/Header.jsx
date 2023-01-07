@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { RoutePaths } from './RoutePaths';
+import { RoutePaths } from '../../infra/RoutePaths';
 import { useLoggedUser } from 'meteor/quave:logged-user-react';
 
 export const Header = () => {

@@ -1,24 +1,25 @@
 import React from "react";
 import { useAlert } from 'meteor/quave:alert-react-tailwind';
 import { Accounts } from 'meteor/accounts-base';
-import { useNavigate } from "react-router";
-import { NotificationAlert, NotificationState } from "./Components/NotificationAlert";
-import { RoutePaths } from "./RoutePaths";
+import { useNavigate, useParams } from "react-router";
+import { NotificationAlert, NotificationState } from "../Components/NotificationAlert";
+import { RoutePaths } from "../../infra/RoutePaths";
 
-export const ForgotPassword = () => {
+export const ResetPassword = () => {
     const { openAlert } = useAlert();
-    const [email, setEmail] = React.useState("");
+    const { token } = useParams();
+    const [password, setPassword] = React.useState("");
     const [notificationMessage, setNotificationMessage] = React.useState("");
     const [notificationState, setNotificationState] = React.useState(NotificationState.HIDE);
     const navigate = useNavigate();
 
-    const forgotPassword = () => {
-        Accounts.forgotPassword({ email }, (errorResponse) => {
+    const resetPassword = () => {
+        Accounts.resetPassword(token, password, (errorResponse) => {
             if (errorResponse) {
                 openAlert(errorResponse.reason);
             }
             else {
-                setEmail("");
+                setPassword("");
                 openAlert("Link for reset password has been sent");
             }
         })
@@ -32,14 +33,14 @@ export const ForgotPassword = () => {
                 <NotificationAlert message={notificationMessage} state={notificationState} />
                 <div className="grid grid-cols-6 gap-6">
                     <div className="col-span-6 sm:col-span-3 lg:col-span-6">
-                        <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                            Email
+                        <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                            New Password
                         </label>
                         <input
-                            type="email"
-                            id="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            type="password"
+                            id="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                             className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         />
                     </div>
@@ -48,17 +49,10 @@ export const ForgotPassword = () => {
                     <button
                         type="button"
                         className="bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600"
-                        onClick={forgotPassword}
+                        onClick={resetPassword}
                     >
-                        Reset Password
+                        Confirm
                     </button>
-                    <button
-                        type="button"
-                        className="bg-indigo-100 bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-black hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600"
-                        onClick={() => navigate(RoutePaths.HOME)}
-                    >
-                        Cancel
-                    </button >
                 </div>
             </form>
         </div>

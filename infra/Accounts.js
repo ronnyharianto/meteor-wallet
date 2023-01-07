@@ -1,6 +1,6 @@
 import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
-import { RoutePaths } from '../ui/RoutePaths';
+import { RoutePaths } from './RoutePaths';
 import { WalletCollection } from '../api/Wallets/WalletCollection';
 
 Accounts.emailTemplates.resetPassword.html = (user, url) =>
